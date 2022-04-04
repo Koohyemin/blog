@@ -1,0 +1,68 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import = "dao.*" %>
+<%@ page import = "java.util.*"%>
+<%
+	// 게시글 입력에 필요한 카테고리 목록
+	CategoryDao categoryDao = new CategoryDao();
+	ArrayList<String> list = categoryDao.insertCategoryName();
+%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>insertBoardForm</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+</head>
+<body>
+	<!-- 스킨+메인 메뉴 -->
+	<jsp:include page="/inc/upMenu.jsp"></jsp:include>
+	<!-- include시 컨텍스명(프로젝트이름)을 명시하지 않는다. -->
+	<!-- 스킨+메인 메뉴 끝 -->
+	<br>
+	<div class="container">
+	<h1>게시글 입력</h1>
+	<a href="<%=request.getContextPath()%>/board//boardList.jsp" class="btn btn-light float-right">이전으로</a> 
+	<form method="post" action="<%=request.getContextPath() %>/board/insertBoardAction.jsp">
+		<table class="table">
+			<tr>
+				<td>categoryName</td>
+				<td>
+					<select name="categoryName" class="custom-select">
+						<%
+							for(String s : list) {
+						%>
+								<option value="<%=s %>"><%=s %></option>
+						<%		
+							}
+						%>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>boardTitle</td>
+				<td>
+					<input type="text" name="boardTitle" class="form-control">
+				</td>
+			</tr>
+			<tr>
+				<td>boardContent</td>
+				<td>
+					<textarea name="boardContent" rows="5" cols="80" class="form-control"></textarea>
+				</td>
+			</tr>
+			<tr>
+				<td>boardPw</td>
+				<td>
+					<input type="password" name="boardPw" class="form-control">
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<button type="submit" class="btn btn-warning text-light">등록</button> 
+				</td>
+			</tr>
+		</table>
+	</form>
+</div>
+</body>
+</html>

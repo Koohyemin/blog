@@ -1,0 +1,80 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import = "java.sql.*" %>
+<%@ page import = "java.util.*" %>
+<%@ page import = "vo.*" %>
+<%@ page import = "dao.*" %>
+<%
+	BoardDao boardDao = new BoardDao();
+	CategoryDao categoryDao = new CategoryDao();
+	
+	int boardNo = Integer.parseInt(request.getParameter("boardNo"));	 // boardNo 형변환 후 받아오기
+	
+	// 수정되기 전 게시글 보여주기
+	Board board = boardDao.selectBoardOne(boardNo); // boardNo 대입
+	// 게시글 수정 시 카테고리 목록
+	ArrayList<String> categoryList = categoryDao.insertCategoryName();
+	
+%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>updateBoardForm</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+</head>
+<body>
+	<!-- 스킨+메인 메뉴 -->
+	<jsp:include page="/inc/upMenu.jsp"></jsp:include>
+	<!-- include시 컨텍스명(프로젝트이름)을 명시하지 않는다. -->
+	<!-- 스킨+메인 메뉴 끝 -->
+	<br>
+	<div class="container">
+	<h1>게시글 수정</h1>
+	<a href="<%=request.getContextPath()%>/board/boardOne.jsp?boardNo=<%=boardNo %>" class="btn btn-light float-right">이전으로</a> 
+	<form method="post" action="<%=request.getContextPath()%>/board/updateBoardAction.jsp">
+		<table class="table">
+			<tr>
+				<td>boardNo</td>
+				<td><input type="text" name="boardNo" value="<%=board.getBoardNo()%>" readonly="readonly" class="form-control"></td>
+			</tr>
+			<tr>
+				<td>categoryName</td>
+				<td>
+					<select name="categoryName" class="custom-select">
+						<%
+							for(String s : categoryList) {
+								if(s.equals(board.getCategoryName())) {
+						%>
+									<option selected="selected" value="<%=s%>"><%=s%></option>
+						<%
+								} else {
+						%>
+									<option value="<%=s%>"><%=s%></option>
+						<%		
+								}
+							}
+						%>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>boardTitle</td>
+				<td>
+					<input type="text" name="boardTitle" value="<%=board.getBoardTitle()%>" class="form-control">
+				</td>
+			</tr>
+			<tr>
+				<td>boardContent</td>
+				<td>
+					<textarea rows="5" cols="50" name="boardContent" class="form-control"><%=board.getBoardContent()%></textarea>
+				</td>
+			<tr>	
+				<td>boardPw</td>
+				<td><input type="password" name="boardPw" value="" class="form-control" placeholder="Enter password"></td>
+			</tr>
+		</table>
+		<button type="submit" class="btn btn-warning text-light">수정</button>
+	</form>
+</div>
+</body>
+</html>
