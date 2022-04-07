@@ -19,7 +19,7 @@
 	int rowPerPage = 10; // 한 페이지당 게시글 개수
 	int beginRow = (currentPage-1) * rowPerPage; // 페이지 별 첫 게시글 ex) 한페이지당 10이라면 1p -> 0, 2p -> 10, 3p -> 20
 	int totalRow = 0; // 전체 게시글 개수
-	if(request.getParameter("categoryName").equals("")) {
+	if(categoryName.equals("")) {
 		totalRow = boardDao.selectBoardTotalRow();
 	} else if(request.getParameter("categoryName") != null) {
 		totalRow = boardDao.selectCategoryBoardTotal(categoryName); // totalRow에 category 게시글 수 값 대입	
