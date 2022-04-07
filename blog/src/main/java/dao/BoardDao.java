@@ -6,7 +6,26 @@ import vo.*;
 public class BoardDao {
 	// 생성자 메서드
 	public BoardDao() {}
-	
+	// 카테고리 개수만 받는 테이블 -> 카테고리 페이징을 위해서
+	public int selectCategoryBoardTotal(String categoryName) throws Exception {
+		int row = 0;
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String dburl = "jdbc:mariadb://localhost:3306/blog"; 
+		String dbuser = "root";
+		String dbpw = "java1234";
+		conn = DriverManager.getConnection(dburl, dbuser, dbpw);
+		
+		String sql = "SELECT COUNT(*) cnt FROM board WHERE category_name=?";
+		stmt = conn.prepareStatement(sql);
+		stmt.setString(1, categoryName);
+		rs = stmt.executeQuery();
+		if(rs.next()) {
+			row = rs.getInt("cnt");
+		}
+		return row;
+	}
 	// 카테고리 목록 + 개수 -> ArrayList<HashMap> 반환 (categoryName, cnt)
 	// boardList.jsp, boardOne.jsp
 	public ArrayList<HashMap<String, Object>> selectCategoryList() throws Exception {
