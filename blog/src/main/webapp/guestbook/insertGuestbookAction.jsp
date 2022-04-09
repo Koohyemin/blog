@@ -8,7 +8,8 @@
 	// 방명록 입력값 받아오기
 	String writer = request.getParameter("writer");
 	String guestbookPw = request.getParameter("guestbookPw");
-	String guestbookContent = request.getParameter("guestbookContent");	
+	 // replaceAll : "\r\n"을 <br>로 바꿈 -> gusestBookList페이지에서 줄바꿈도 보이도록 개행 처리
+	String guestbookContent = request.getParameter("guestbookContent").replaceAll("\r\n","<br>");	
 	System.out.println("guestbook insert writer : "+writer);
 	System.out.println("guestbookPw : "+guestbookPw);
 	System.out.println("guestbookContent : "+guestbookContent);

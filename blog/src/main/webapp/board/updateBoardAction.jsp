@@ -12,10 +12,12 @@
 	board.setBoardNo(Integer.parseInt(request.getParameter("boardNo")));
 	board.setCategoryName(request.getParameter("categoryName"));
 	board.setBoardTitle(request.getParameter("boardTitle"));
-	board.setBoardContent(request.getParameter("boardContent"));
+	 // replaceAll : "\r\n"을 <br>로 바꿈 -> boardOne페이지에서 줄바꿈도 보이도록 개행 처리
+	board.setBoardContent(request.getParameter("boardContent").replaceAll("\r\n","<br>"));
 	board.setBoardPw(request.getParameter("boardPw"));
 	System.out.println("수정 게시글 번호 : "+board.getBoardNo()); // 수정boardNo 디버깅
 	System.out.println("수정 비밀번호 : "+board.getBoardPw());
+	
 	
 	int row = boardDao.updateBoard(board);
 	

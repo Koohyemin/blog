@@ -7,7 +7,8 @@
 
 	// guestbookNo, guestbookPw 값 받아오기
 	int guestbookNo = Integer.parseInt(request.getParameter("guestbookNo"));
-	String guestbookContent = request.getParameter("guestbookContent");
+	 // replaceAll : "\r\n"을 <br>로 바꿈 -> gusestBookList페이지에서 줄바꿈도 보이도록 개행 처리
+	String guestbookContent = request.getParameter("guestbookContent").replaceAll("\r\n","<br>");
 	String guestbookPw = request.getParameter("guestbookPw");
 	
 	System.out.println("방명록 수정 번호 "+ guestbookNo);

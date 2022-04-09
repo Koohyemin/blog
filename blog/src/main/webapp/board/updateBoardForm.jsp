@@ -11,6 +11,8 @@
 	
 	// 수정되기 전 게시글 보여주기
 	Board board = boardDao.selectBoardOne(boardNo); // boardNo 대입
+	// 수정폼에서 <br>로 보이는 부분 다시 "\r\n"으로 변경하여 개행처리 (insertAction에서 <br>로 바꿔놓은 부분 다시 안보이도록 처리)
+	board.setBoardContent(board.getBoardContent().replaceAll("<br>","\r\n"));
 	// 게시글 수정 시 카테고리 목록
 	ArrayList<String> categoryList = categoryDao.insertCategoryName();
 	

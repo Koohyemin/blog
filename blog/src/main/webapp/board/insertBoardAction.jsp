@@ -13,7 +13,8 @@
 	board = new Board();
 	board.setCategoryName(request.getParameter("categoryName"));
 	board.setBoardTitle(request.getParameter("boardTitle"));
-	board.setBoardContent(request.getParameter("boardContent"));
+	 // replaceAll : "\r\n"을 <br>로 바꿈 -> boardOne페이지에서 줄바꿈도 보이도록 개행 처리
+	board.setBoardContent(request.getParameter("boardContent").replaceAll("\r\n", "<br>"));
 	board.setBoardPw(request.getParameter("boardPw"));
 	
 	int row = boardDao.insertBoard(board);

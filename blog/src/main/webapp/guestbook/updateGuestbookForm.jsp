@@ -12,6 +12,9 @@
 	GuestbookDao guestbookDao = new GuestbookDao();
 	Guestbook guestbook = guestbookDao.selectGuestbookOne(guestbookNo);
 	
+	// 수정폼에서 <br>로 보이는 부분 다시 "\r\n"으로 변경하여 개행처리 (insertAction에서 <br>로 바꿔놓은 부분 다시 안보이도록 처리)
+	guestbook.setGuestbookContent(guestbook.getGuestbookContent().replaceAll("<br>","\r\n"));
+	
 	
 %>
 <!DOCTYPE html>
