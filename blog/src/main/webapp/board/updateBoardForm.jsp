@@ -3,6 +3,7 @@
 <%@ page import = "java.util.*" %>
 <%@ page import = "vo.*" %>
 <%@ page import = "dao.*" %>
+<%@page import="java.net.URLDecoder"%>
 <%
 	BoardDao boardDao = new BoardDao();
 	CategoryDao categoryDao = new CategoryDao();
@@ -15,6 +16,11 @@
 	board.setBoardContent(board.getBoardContent().replaceAll("<br>","\r\n"));
 	// 게시글 수정 시 카테고리 목록
 	ArrayList<String> categoryList = categoryDao.insertCategoryName();
+	// 유효성 판별
+	String msg = "";
+	if(request.getParameter("msg") != null) {
+		msg = request.getParameter(URLDecoder.decode("msg"));
+	}
 	
 %>
 <!DOCTYPE html>
@@ -32,15 +38,16 @@
 	<br>
 	<div class="container">
 	<h1>게시글 수정</h1>
+	<div class="text-danger"><%=msg %></div>
 	<a href="<%=request.getContextPath()%>/board/boardOne.jsp?boardNo=<%=boardNo %>" class="btn btn-light float-right">이전으로</a> 
 	<form method="post" action="<%=request.getContextPath()%>/board/updateBoardAction.jsp">
 		<table class="table">
 			<tr>
-				<td>boardNo</td>
+				<td>번호</td>
 				<td><input type="text" name="boardNo" value="<%=board.getBoardNo()%>" readonly="readonly" class="form-control"></td>
 			</tr>
 			<tr>
-				<td>categoryName</td>
+				<td>카테고리</td>
 				<td>
 					<select name="categoryName" class="custom-select">
 						<%
@@ -60,18 +67,18 @@
 				</td>
 			</tr>
 			<tr>
-				<td>boardTitle</td>
+				<td>제목</td>
 				<td>
 					<input type="text" name="boardTitle" value="<%=board.getBoardTitle()%>" class="form-control">
 				</td>
 			</tr>
 			<tr>
-				<td>boardContent</td>
+				<td>본문</td>
 				<td>
 					<textarea rows="5" cols="50" name="boardContent" class="form-control"><%=board.getBoardContent()%></textarea>
 				</td>
 			<tr>	
-				<td>boardPw</td>
+				<td>비밀번호</td>
 				<td><input type="password" name="boardPw" value="" class="form-control" placeholder="Enter password"></td>
 			</tr>
 		</table>

@@ -21,11 +21,11 @@
 	<form method="post" action="<%=request.getContextPath()%>/guestbook/deleteGuestbookAction.jsp?guestbookNo=<%=guestbookNo %>">
 		<table class="table">
 		<tr>
-			<td>guesbookNo</td>
+			<td>번호</td>
 			<td><input type="text" name="guestbookNo" readonly="readonly" value="<%=guestbookNo %>" class="form-control"></td>
 		</tr>
 		<tr>
-			<td>guestbookPw</td>
+			<td>비밀번호</td>
 			<td><input type="password" name="guestbookPw" class="form-control"></td>
 		</tr>
 		<br>

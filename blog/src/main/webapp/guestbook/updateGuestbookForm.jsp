@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import = "vo.Guestbook" %>
 <%@ page import = "dao.GuestbookDao" %>
+<%@page import="java.net.URLDecoder"%>
 
 <%
 	// 인코딩
@@ -14,7 +15,11 @@
 	
 	// 수정폼에서 <br>로 보이는 부분 다시 "\r\n"으로 변경하여 개행처리 (insertAction에서 <br>로 바꿔놓은 부분 다시 안보이도록 처리)
 	guestbook.setGuestbookContent(guestbook.getGuestbookContent().replaceAll("<br>","\r\n"));
-	
+	// 유효성 판별
+	String msg = "";
+	if(request.getParameter("msg") != null) {
+		msg = request.getParameter(URLDecoder.decode("msg"));
+	}
 	
 %>
 <!DOCTYPE html>
@@ -32,6 +37,7 @@
 	<br>
 	<div class="container">
 	<h1>방명록 수정</h1>
+	<div class="text-danger"><%=msg %></div>
 	<a href="<%=request.getContextPath()%>/guestbook/guestbookList.jsp?guestbookNo=<%=guestbookNo %>" class="btn btn-light float-right">이전으로</a> 
 	<form method="post" action="<%=request.getContextPath()%>/guestbook/updateGuestbookAction.jsp?guestbookNo=<%=guestbookNo %>">
 		<table border="1" class="table table-bordered">

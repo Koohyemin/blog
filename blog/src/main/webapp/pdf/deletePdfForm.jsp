@@ -22,12 +22,12 @@
 	<h1>pdf 삭제</h1>
 	<a href="<%=request.getContextPath()%>/pdf/pdfList.jsp" class="btn btn-light float-right">이전으로</a>
 	<tr>
-		<td>pdfNo</td>
+		<td>번호</td>
 		<td>
 			<input type="number" name="pdfNo" value="<%=pdfNo%>" readonly="readonly" class="form-control">
 	</tr>
 	<tr>
-		<td>pdfPw</td>
+		<td>비밀번호</td>
 		<td>
 			<input type="password" name="pdfPw" class="form-control" placeholder="Enter password">
 		</td>

@@ -4,6 +4,8 @@
 <%@ page import = "java.io.File" %>
 <%@ page import = "vo.Photo" %>
 <%@ page import = "dao.PhotoDao" %>
+<%@page import="java.net.URLEncoder"%>
+<%@page import="java.net.URLEncoder"%>
 <%
 	/*
 	form태그의 enctype="multipart/form-data"로 넘겨져서 request.getParameter() API를 사용할 수 없다.	
@@ -37,7 +39,19 @@
 	System.out.println("photoOriginalName : " + photoOriginalName);
 	System.out.println("photoName : " + photoName);
 	System.out.println("photoType : " + photoType);
-
+	
+	// 파일 유효성
+	if("".equals(writer)) {
+		response.sendRedirect(request.getContextPath()+"/photo/insertPhotoForm.jsp?msg="+URLEncoder.encode("작성자를 입력해주세요"));
+		return;
+	} else if(photoType == null) {
+		response.sendRedirect(request.getContextPath()+"/photo/insertPhotoForm.jsp?msg="+URLEncoder.encode("이미지 파일을 선택해주세요"));
+		return;
+	} else if("".equals(photoPw)) {
+		response.sendRedirect(request.getContextPath()+"/photo/insertPhotoForm.jsp?msg="+URLEncoder.encode("비밀번호를 입력해주세요"));
+		return;
+	}
+	
 	// 파일업로드 경우 100mbyte이하의 image/gif, image/png, image/jpeg 3가지 이미지만 허용
 	if(photoType.equals("image/gif") || photoType.equals("image/png") || photoType.equals("image/jpeg")) {
 		// db에 저장..
@@ -58,6 +72,6 @@
 		// 잘못들어온 파일이므로 업로드된 파일 지우고 폼으로 이동
 		File file = new File(path + "\\" + photoName); // java.io.File 잘못된 파일을 불러온다.
 		file.delete(); // 잘못 업로드된 파일 삭제
-		response.sendRedirect(request.getContextPath() + "/photo/insertPhotoForm.jsp");
+		response.sendRedirect(request.getContextPath() + "/photo/insertPhotoForm.jsp?msg="+URLEncoder.encode("사진파일만 업로드해주세요"));
 	}
 %>

@@ -2,6 +2,7 @@
 <%@ page import = "vo.Guestbook" %>
 <%@ page import = "dao.GuestbookDao" %>
 <%@ page import = "java.util.ArrayList" %>
+<%@page import="java.net.URLDecoder"%>
 <%
 	int currentPage = 1;
 
@@ -27,6 +28,12 @@
 	lastPage = (int)(Math.ceil((double)totalCount / (double)rowPerPage)); 
 	// 4.0 / 2.0 = 2.0
 	// 5.0 / 2.0 = 2.5 -> 3.0
+	
+	// 유효성 판별
+	String msg = "";
+	if(request.getParameter("msg") != null) {
+		msg = request.getParameter(URLDecoder.decode("msg"));
+	}
 
 %>
 <!DOCTYPE html>
@@ -44,6 +51,7 @@
 	<br>
 	<div class="container">
 	<h1>방명록<span class="badge badge-warning badge-pill text-light"><%=totalCount%></span></h1>
+	<div class="text-danger"><%=msg %></div>
 		<!-- 방명록 입력 -->
 		<form method="post" action="<%=request.getContextPath()%>/guestbook/insertGuestbookAction.jsp"><br>
 			<table border="1" class="table table-borderless">

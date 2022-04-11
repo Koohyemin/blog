@@ -31,29 +31,29 @@
 		<a href="<%=request.getContextPath()%>/photo/photoList.jsp" class="btn btn-light">이전으로</a>
 	<table class="table table-bordered">
 		<tr>
-			<td class="text-secondary">photoNo</td>
+			<td class="text-secondary" nowrap>번호</td>
 			<td><%=photo.getPhotoNo() %></td>
 		</tr>
 		<tr>
-			<td class="text-secondary">writer</td>
+			<td class="text-secondary" nowrap>작성자</td>
 			<td><%=photo.getWriter()%></td>
 		</tr>
 		<tr>
-			<td class="text-secondary">photoName</td>
+			<td class="text-secondary" nowrap>제목</td>
 			<td><%=photo.getPhotoOriginalName()%></td> 
 		</tr>
 		<tr>
-			<td class="text-secondary">photo</td>
+			<td class="text-secondary" nowrap>사진</td>
 			<td>
 				<img src="<%=request.getContextPath() %>/uploadPhoto/<%=photo.getPhotoName()%>" class="img-fluid">
 			</td>
 		</tr>
 		<tr>
-			<td class="text-secondary">createDate</td>
+			<td class="text-secondary" nowrap>작성일</td>
 			<td><%=photo.getCreateDate()%></td>
 		</tr>
 		<tr>
-			<td class="text-secondary">updateDate</td>
+			<td class="text-secondary" nowrap>수정일</td>
 			<td><%=photo.getUpdateDate()%></td>
 		</tr>
 	</table>

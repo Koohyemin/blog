@@ -60,27 +60,27 @@
 	<a href="<%=request.getContextPath()%>/board/boardList.jsp" class="btn btn-light float-right">이전으로</a>
 	<table class="table table-bordered">
 		<tr>
-			<td class="text-secondary">boardNo</td>
+			<td class="text-secondary">번호</td>
 			<td><%=board.getBoardNo() %></td>
 		</tr>
 		<tr>
-			<td class="text-secondary">categoryName</td>
+			<td class="text-secondary">카테고리</td>
 			<td><%=board.getCategoryName() %></td>
 		</tr>
 		<tr>
-			<td class="text-secondary">boardTitle</td>
+			<td class="text-secondary">제목</td>
 			<td><%=board.getBoardTitle() %></td>
 		</tr>
 		<tr>
-			<td class="text-secondary">boardContent</td>
+			<td class="text-secondary">본문</td>
 			<td><%=board.getBoardContent() %></td>
 		</tr>
 		<tr>
-			<td class="text-secondary">createDate</td>
+			<td class="text-secondary">작성일</td>
 			<td><%=board.getCreateDate() %></td>
 		</tr>
 		<tr>
-			<td class="text-secondary">updateDate</td>
+			<td class="text-secondary">수정일</td>
 			<td><%=board.getUpdateDate() %></td>
 		</tr>
 	</table>

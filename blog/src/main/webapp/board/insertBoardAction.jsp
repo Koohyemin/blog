@@ -1,8 +1,22 @@
+<%@page import="java.net.URLEncoder"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import = "java.sql.*" %>
 <%@ page import = "vo.*" %>
 <%@ page import = "dao.*" %>
+
 <%
+	request.setCharacterEncoding("utf-8"); // 인코딩
+	// 유효성 판별
+	if(request.getParameter("boardTitle").equals("")) {
+		response.sendRedirect(request.getContextPath()+"/board/insertBoardForm.jsp?msg="+URLEncoder.encode("제목을 입력해주세요"));
+		return;
+	} else if (request.getParameter("boardContent").equals("")) {
+		response.sendRedirect(request.getContextPath()+"/board/insertBoardForm.jsp?msg="+URLEncoder.encode("본문을 입력해주세요"));
+		return;
+	} else if(request.getParameter("boardPw").equals("")) {
+		response.sendRedirect(request.getContextPath()+"/board/insertBoardForm.jsp?msg="+URLEncoder.encode("비밀번호를 입력해주세요"));
+		return;
+	}
 	BoardDao boardDao = new BoardDao();
 	Board board = null;
 	

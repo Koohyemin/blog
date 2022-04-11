@@ -1,4 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page import="java.net.URLDecoder"%>
+<%
+	// 유효성 판별
+	String msg = "";
+	if(request.getParameter("msg") != null) {
+		msg = request.getParameter(URLDecoder.decode("msg"));
+	}
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,6 +22,7 @@
 	<br>
 	<div class="container">
 	<h1>이미지 등록</h1>
+	<div class="text-danger"><%=msg %></div>
 	<a href="<%=request.getContextPath()%>/photo/photoList.jsp" class="btn btn-light float-right">이전으로</a>
 	<!-- 
 		1) form태그 안에 값을 넘기는 기본값(enctype속성)은 문자열이다. 

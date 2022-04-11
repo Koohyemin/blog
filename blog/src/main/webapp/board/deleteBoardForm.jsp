@@ -21,13 +21,13 @@
 	<form method="post" action="<%=request.getContextPath()%>/board/deleteBoardAction.jsp">
 	<table class="table">
 		<tr>
-			<td>boardNo</td>
+			<td>번호</td>
 			<td>
 				<input type="number" name="boardNo" value="<%=boardNo %>" readonly="readonly" class="form-control">   <!-- 번호는 수정x -->
 			</td>
 		</tr>
 		<tr>
-			<td>boardPw</td>
+			<td>비밀번호</td>
 			<td>
 				<input type="password" name="boardPw" class="form-control" placeholder="Enter password">
 			</td>
