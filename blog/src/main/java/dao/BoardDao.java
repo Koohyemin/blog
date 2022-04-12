@@ -1,6 +1,8 @@
 package dao;
 import java.sql.*;
 import java.util.*;
+
+import util.DBUtil;
 import vo.*;
 
 public class BoardDao {
@@ -10,12 +12,9 @@ public class BoardDao {
 	public int selectCategoryBoardTotal(String categoryName) throws Exception {
 		int row = 0;
 		Connection conn = null;
+		conn = DBUtil.getConnection();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		String dburl = "jdbc:mariadb://localhost:3306/blog"; 
-		String dbuser = "root";
-		String dbpw = "java1234";
-		conn = DriverManager.getConnection(dburl, dbuser, dbpw);
 		
 		String sql = "SELECT COUNT(*) cnt FROM board WHERE category_name=?";
 		stmt = conn.prepareStatement(sql);
@@ -32,16 +31,11 @@ public class BoardDao {
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
 		HashMap<String, Object> map = null;
 		
-		Class.forName("org.mariadb.jdbc.Driver");
 		// 데이터베이스 자원 준비
 		Connection conn = null;
+		conn = DBUtil.getConnection();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		
-		String dburl = "jdbc:mariadb://localhost:3306/blog"; 
-		String dbuser = "root";
-		String dbpw = "java1234";
-		conn = DriverManager.getConnection(dburl, dbuser, dbpw);
 		
 		String sql = "SELECT category_name categoryName, COUNT(*) cnt FROM board GROUP BY category_name";
 		stmt = conn.prepareStatement(sql); // category_name, COUNT(*)
@@ -68,16 +62,11 @@ public class BoardDao {
 		ArrayList<Board> list = new ArrayList<Board>();
 		Board board = null;
 		
-		Class.forName("org.mariadb.jdbc.Driver");
 		// 데이터베이스 자원 준비
 		Connection conn = null;
+		conn = DBUtil.getConnection();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		
-		String dburl = "jdbc:mariadb://localhost:3306/blog"; 
-		String dbuser = "root";
-		String dbpw = "java1234";
-		conn = DriverManager.getConnection(dburl, dbuser, dbpw);
 		
 		String sql = null;
 		if(categoryName.equals("")) { // 카테고리가 선택되어있지 않다면 전체 게시글 목록
@@ -116,16 +105,11 @@ public class BoardDao {
 	public int selectBoardTotalRow() throws Exception {
 		int row = 0;
 		
-		Class.forName("org.mariadb.jdbc.Driver");
 		// 데이터베이스 자원 준비
 		Connection conn = null;
+		conn = DBUtil.getConnection();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		
-		String dburl = "jdbc:mariadb://localhost:3306/blog"; 
-		String dbuser = "root";
-		String dbpw = "java1234";
-		conn = DriverManager.getConnection(dburl, dbuser, dbpw);
 		
 		String sql = "SELECT COUNT(*) cnt FROM board";
 		stmt = conn.prepareStatement(sql);
@@ -149,16 +133,11 @@ public class BoardDao {
 	public Board selectBoardOne(int boardNo) throws Exception{
 		Board board = null;
 		
-		Class.forName("org.mariadb.jdbc.Driver");
 		// 데이터베이스 자원 준비
 		Connection conn = null;
+		conn = DBUtil.getConnection();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		
-		String dburl = "jdbc:mariadb://localhost:3306/blog"; 
-		String dbuser = "root";
-		String dbpw = "java1234";
-		conn = DriverManager.getConnection(dburl, dbuser, dbpw);
 		
 		String sql = "SELECT board_no boardNo, category_name categoryName, board_title boardTitle, board_content boardContent, create_date createDate, update_date updateDate FROM board WHERE board_no=?";
 		stmt = conn.prepareStatement(sql);
@@ -188,15 +167,10 @@ public class BoardDao {
 	public int insertBoard(Board board) throws Exception {
 		int row = 0;
 		
-		Class.forName("org.mariadb.jdbc.Driver");
 		// 데이터베이스 자원 준비
 		Connection conn = null;
+		conn = DBUtil.getConnection();
 		PreparedStatement stmt = null;
-		
-		String dburl = "jdbc:mariadb://localhost:3306/blog"; 
-		String dbuser = "root";
-		String dbpw = "java1234";
-		conn = DriverManager.getConnection(dburl, dbuser, dbpw);
 		
 		String sql = "INSERT INTO board(category_name, board_title, board_content, board_pw, create_date, update_date)VALUES(?,?,?,?,NOW(),NOW())";
 		stmt = conn.prepareStatement(sql);
@@ -218,15 +192,10 @@ public class BoardDao {
 	public int updateBoard(Board board) throws Exception {
 		int row = 0;
 		
-		Class.forName("org.mariadb.jdbc.Driver");
 		// 데이터베이스 자원 준비
 		Connection conn = null;
+		conn = DBUtil.getConnection();
 		PreparedStatement stmt = null;
-		
-		String dburl = "jdbc:mariadb://localhost:3306/blog"; 
-		String dbuser = "root";
-		String dbpw = "java1234";
-		conn = DriverManager.getConnection(dburl, dbuser, dbpw);
 		
 		String sql = "UPDATE board SET category_name = ?, board_title = ?, board_content = ?, update_date = NOW() WHERE board_no = ? AND board_pw = ?";
 		stmt = conn.prepareStatement(sql);
@@ -249,15 +218,10 @@ public class BoardDao {
 	public int deleteBoard(Board board) throws Exception {
 		int row = 0;
 	
-		Class.forName("org.mariadb.jdbc.Driver");
 		// 데이터베이스 자원 준비
 		Connection conn = null;
+		conn = DBUtil.getConnection();
 		PreparedStatement stmt = null;
-		
-		String dburl = "jdbc:mariadb://localhost:3306/blog"; 
-		String dbuser = "root";
-		String dbpw = "java1234";
-		conn = DriverManager.getConnection(dburl, dbuser, dbpw);
 		
 		String sql = "DELETE FROM board WHERE board_no=? AND board_pw=?";
 		stmt = conn.prepareStatement(sql);

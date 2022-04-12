@@ -3,6 +3,8 @@ package dao;
 import java.sql.*;
 import java.util.*;
 
+import util.DBUtil;
+
 public class CategoryDao {
 	public CategoryDao() {} // 생성자 메서드
 	
@@ -10,14 +12,10 @@ public class CategoryDao {
 	public ArrayList<String> insertCategoryName() throws Exception {
 		ArrayList<String> list = new ArrayList<String>();
 		// 데이터베이스 자원 준비
-		Class.forName("org.mariadb.jdbc.Driver");
 		Connection conn = null;
+		conn = DBUtil.getConnection();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		String dburl = "jdbc:mariadb://localhost:3306/blog"; 
-		String dbuser = "root";
-		String dbpw = "java1234";
-		conn = DriverManager.getConnection(dburl, dbuser, dbpw);
 		
 		String sql = "SELECT category_name categoryName FROM category ORDER BY category_name ASC";
 		stmt = conn.prepareStatement(sql);

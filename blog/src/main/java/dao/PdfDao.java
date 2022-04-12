@@ -2,6 +2,8 @@ package dao;
 
 import java.sql.*;
 import java.util.*;
+
+import util.DBUtil;
 import vo.Pdf;
 
 public class PdfDao {
@@ -11,14 +13,10 @@ public class PdfDao {
 	// 입력 매개값 : Pdf pdf 반환
 	// insertPdfAction.jsp
 	public void insertPdf(Pdf pdf) throws Exception {
-		Class.forName("org.mariadb.jdbc.Driver");
 		// 데이터베이스 접속
 		Connection conn = null;
+		conn = DBUtil.getConnection();
 		PreparedStatement stmt = null;
-		String dburl = "jdbc:mariadb://localhost:3306/blog";
-		String dbuser = "root";
-		String dbpw = "java1234";
-		conn = DriverManager.getConnection(dburl, dbuser, dbpw);
 		
 		String sql = "INSERT INTO pdf(pdf_name, pdf_original_name, pdf_type, pdf_pw, writer, create_date, update_date) VALUES(?,?,?,?,?,NOW(),NOW())";
 		stmt = conn.prepareStatement(sql);
@@ -47,16 +45,11 @@ public class PdfDao {
 		ArrayList<Pdf> list = new ArrayList<Pdf>();
 		Pdf pdf = null;
 		
-		Class.forName("org.mariadb.jdbc.Driver");
 		// 데이터베이스 자원 준비
 		Connection conn = null;
+		conn = DBUtil.getConnection();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		
-		String dburl = "jdbc:mariadb://localhost:3306/blog"; 
-		String dbuser = "root";
-		String dbpw = "java1234";
-		conn = DriverManager.getConnection(dburl, dbuser, dbpw);
 		
 		String sql = "SELECT pdf_no pdfNo, pdf_name pdfName, pdf_original_name pdfOriginalName, writer, create_date createDate FROM pdf ORDER BY create_date DESC LIMIT ?,?";
 		stmt = conn.prepareStatement(sql);
@@ -86,16 +79,11 @@ public class PdfDao {
 	public int selectPdfTotalRow() throws Exception {
 		int total = 0;
 		
-		Class.forName("org.mariadb.jdbc.Driver");
 		// 데이터베이스 자원 준비
 		Connection conn = null;
+		conn = DBUtil.getConnection();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		
-		String dburl = "jdbc:mariadb://localhost:3306/blog"; 
-		String dbuser = "root";
-		String dbpw = "java1234";
-		conn = DriverManager.getConnection(dburl, dbuser, dbpw);
 		
 		String sql = "SELECT COUNT(*) cnt FROM pdf"; 
 		stmt = conn.prepareStatement(sql);
@@ -116,14 +104,10 @@ public class PdfDao {
 	// deletePdfAction.jsp
 	public int deletePdf(int pdfNo, String pdfPw) throws Exception {
 		int row = 0;
-		Class.forName("org.mariadb.jdbc.Driver");
 		// 데이터베이스 접속
 		Connection conn = null;
+		conn = DBUtil.getConnection();
 		PreparedStatement stmt = null;
-		String dburl = "jdbc:mariadb://localhost:3306/blog";
-		String dbuser = "root";
-		String dbpw = "java1234";
-		conn = DriverManager.getConnection(dburl, dbuser, dbpw);
 		
 		String sql = "DELETE FROM pdf WHERE pdf_no=? AND pdf_pw=?";
 		stmt = conn.prepareStatement(sql);
@@ -141,15 +125,11 @@ public class PdfDao {
 	public String selectPdfName(int pdfNo) throws Exception {
 		String pdfName = "";
 		
-		Class.forName("org.mariadb.jdbc.Driver");
 		// 데이터베이스 접속
 		Connection conn = null;
+		conn = DBUtil.getConnection();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		String dburl = "jdbc:mariadb://localhost:3306/blog";
-		String dbuser = "root";
-		String dbpw = "java1234";
-		conn = DriverManager.getConnection(dburl, dbuser, dbpw);
 		
 		String sql = "SELECT pdf_name pdfName From pdf WHERE pdf_no=?";
 		stmt = conn.prepareStatement(sql);

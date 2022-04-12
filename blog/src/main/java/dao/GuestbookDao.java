@@ -1,6 +1,8 @@
 package dao;
 import java.sql.*;
 import java.util.*;
+
+import util.DBUtil;
 import vo.Guestbook;
 
 public class GuestbookDao {
@@ -12,15 +14,10 @@ public class GuestbookDao {
 	// Guestbook guestbook = new Guestbook();
 	// guestbookDao.insertGuestbook(guestbook); 호출
 	public void insertGuestbook(Guestbook guestbook) throws Exception {
-		Class.forName("org.mariadb.jdbc.Driver");
 		// 데이터베이스 자원 준비
 		Connection conn = null;
+		conn = DBUtil.getConnection();
 		PreparedStatement stmt = null;
-		
-		String dburl = "jdbc:mariadb://localhost:3306/blog";
-		String dbuser = "root";
-		String dbpw = "java1234";
-		conn = DriverManager.getConnection(dburl, dbuser, dbpw);
 		
 		String sql = "INSERT INTO guestbook(guestbook_content, writer, guestbook_pw, create_date, update_date) VALUES(?,?,?,NOW(),NOW())";
 		stmt = conn.prepareStatement(sql);
@@ -45,16 +42,11 @@ public class GuestbookDao {
 	public Guestbook selectGuestbookOne(int guestbookNo) throws Exception {
 		Guestbook guestbook = null;
 		
-		Class.forName("org.mariadb.jdbc.Driver");
 		// 데이터베이스 자원 준비
 		Connection conn = null;
+		conn = DBUtil.getConnection();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		
-		String dburl = "jdbc:mariadb://localhost:3306/blog";
-		String dbuser = "root";
-		String dbpw = "java1234";
-		conn = DriverManager.getConnection(dburl, dbuser, dbpw);
 		
 		String sql = "SELECT guestbook_no guestbookNo, writer, guestbook_content guestbookContent FROM guestbook WHERE guestbook_no=?";
 		stmt = conn.prepareStatement(sql);
@@ -81,14 +73,10 @@ public class GuestbookDao {
 	public int updateGuestbook(Guestbook guestbook) throws Exception {
 		int row = 0;
 
-		Class.forName("org.mariadb.jdbc.Driver");
 		// 데이터베이스 자원 준비
 		Connection conn = null;
+		conn = DBUtil.getConnection();
 		PreparedStatement stmt = null;	
-		String dburl = "jdbc:mariadb://localhost:3306/blog";
-		String dbuser = "root";
-		String dbpw = "java1234";
-		conn = DriverManager.getConnection(dburl, dbuser, dbpw);
 		
 		String sql = "UPDATE guestbook SET guestbook_content=? WHERE guestbook_no=? AND guestbook_pw=?";
 		stmt = conn.prepareStatement(sql);
@@ -112,14 +100,10 @@ public class GuestbookDao {
 	public int deleteGuestbook(int guestbookNo, String guestbookPw) throws Exception {
 		int row = 0;
 
-		Class.forName("org.mariadb.jdbc.Driver");
 		// 데이터베이스 자원 준비
 		Connection conn = null;
+		conn = DBUtil.getConnection();
 		PreparedStatement stmt = null;
-		String dburl = "jdbc:mariadb://localhost:3306/blog";
-		String dbuser = "root";
-		String dbpw = "java1234";
-		conn = DriverManager.getConnection(dburl, dbuser, dbpw);
 		
 		String sql = "DELETE FROM guestbook WHERE guestbook_no=? AND guestbook_pw=?";
 		stmt = conn.prepareStatement(sql);
@@ -139,16 +123,11 @@ public class GuestbookDao {
 	public int selectGuestbookTotalRow() throws Exception{
 		int row = 0;
 		
-		Class.forName("org.mariadb.jdbc.Driver");
 		// 데이터베이스 자원 준비
 		Connection conn = null;
+		conn = DBUtil.getConnection();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		
-		String dburl = "jdbc:mariadb://localhost:3306/blog";
-		String dbuser = "root";
-		String dbpw = "java1234";
-		conn = DriverManager.getConnection(dburl, dbuser, dbpw); 
 		
 		String sql = "SELECT COUNT(*) cnt FROM guestbook";
 		stmt = conn.prepareStatement(sql);
@@ -171,16 +150,11 @@ public class GuestbookDao {
 	public ArrayList<Guestbook> selectGuestbookListByPage(int beginRow, int rowPerPage) throws Exception {
 		ArrayList<Guestbook> list = new ArrayList<Guestbook>();
 		
-		Class.forName("org.mariadb.jdbc.Driver");
 		// 데이터베이스 자원 준비
 		Connection conn = null;
+		conn = DBUtil.getConnection();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		
-		String dburl = "jdbc:mariadb://localhost:3306/blog"; 
-		String dbuser = "root";
-		String dbpw = "java1234";
-		conn = DriverManager.getConnection(dburl, dbuser, dbpw);
 		
 		String sql = "SELECT guestbook_no guestbookNo, guestbook_content guestbookContent, writer, create_date createDate, update_date updateDate FROM guestbook ORDER BY create_date DESC LIMIT ?,?";
 		stmt = conn.prepareStatement(sql);

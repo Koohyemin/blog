@@ -3,22 +3,19 @@ import java.sql.*;
 import vo.Photo;
 import java.util.*;
 
+import util.DBUtil;
+
 public class PhotoDao {
 	public PhotoDao() {}
 	
 	// 이미지 이름을 반환하는 메서드
 	public String selectPhotoName(int photoNo) throws Exception {
 		String photoName = "";
-		// SELECT photo_name From photo WHERE photo_no=?
-		Class.forName("org.mariadb.jdbc.Driver");
 		// 데이터베이스 접속
 		Connection conn = null;
+		conn = DBUtil.getConnection();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		String dburl = "jdbc:mariadb://localhost:3306/blog";
-		String dbuser = "root";
-		String dbpw = "java1234";
-		conn = DriverManager.getConnection(dburl, dbuser, dbpw);
 		
 		String sql = "SELECT photo_name photoName From photo WHERE photo_no=?";
 		stmt = conn.prepareStatement(sql);
@@ -41,14 +38,10 @@ public class PhotoDao {
 	// 입력 매개값 : Photo photo 반환
 	// insertPhotoAction.jsp
 	public void insertPhoto(Photo photo) throws Exception {
-		Class.forName("org.mariadb.jdbc.Driver");
 		// 데이터베이스 접속
 		Connection conn = null;
+		conn = DBUtil.getConnection();
 		PreparedStatement stmt = null;
-		String dburl = "jdbc:mariadb://localhost:3306/blog";
-		String dbuser = "root";
-		String dbpw = "java1234";
-		conn = DriverManager.getConnection(dburl, dbuser, dbpw);
 		
 		String sql = "INSERT INTO photo(photo_name, photo_original_name, photo_type, photo_pw, writer, create_date, update_date)VALUES(?,?,?,?,?,NOW(),NOW())";
 		stmt = conn.prepareStatement(sql);
@@ -75,14 +68,10 @@ public class PhotoDao {
 	public int deletePhoto(int photoNo, String photoPw) throws Exception {
 		int row = 0;
 		
-		Class.forName("org.mariadb.jdbc.Driver");
 		// 데이터베이스 접속
 		Connection conn = null;
+		conn = DBUtil.getConnection();
 		PreparedStatement stmt = null;
-		String dburl = "jdbc:mariadb://localhost:3306/blog";
-		String dbuser = "root";
-		String dbpw = "java1234";
-		conn = DriverManager.getConnection(dburl, dbuser, dbpw);
 		
 		String sql = "DELETE FROM photo WHERE photo_no=? AND photo_pw=?";
 		stmt = conn.prepareStatement(sql);
@@ -104,16 +93,11 @@ public class PhotoDao {
 		ArrayList<Photo> list = new ArrayList<Photo>();
 		Photo photo = null;
 		
-		Class.forName("org.mariadb.jdbc.Driver");
 		// 데이터베이스 자원 준비
 		Connection conn = null;
+		conn = DBUtil.getConnection();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		
-		String dburl = "jdbc:mariadb://localhost:3306/blog"; 
-		String dbuser = "root";
-		String dbpw = "java1234";
-		conn = DriverManager.getConnection(dburl, dbuser, dbpw);
 		
 		String sql = "SELECT photo_no photoNo, photo_name photoName, photo_original_name PhotoOriginalName, writer, create_date createDate FROM photo ORDER BY create_date DESC LIMIT ?,?";
 		stmt = conn.prepareStatement(sql);
@@ -143,16 +127,11 @@ public class PhotoDao {
 	public int selectPhotoTotalRow() throws Exception {
 		int total = 0;
 		
-		Class.forName("org.mariadb.jdbc.Driver");
 		// 데이터베이스 자원 준비
 		Connection conn = null;
+		conn = DBUtil.getConnection();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		
-		String dburl = "jdbc:mariadb://localhost:3306/blog"; 
-		String dbuser = "root";
-		String dbpw = "java1234";
-		conn = DriverManager.getConnection(dburl, dbuser, dbpw);
 		
 		String sql = "SELECT COUNT(*) cnt FROM photo";
 		stmt = conn.prepareStatement(sql);
@@ -177,16 +156,11 @@ public class PhotoDao {
 	public Photo selectPhotoOne(int photoNo) throws Exception {
 		Photo photo = null;
 		
-		Class.forName("org.mariadb.jdbc.Driver");
 		// 데이터베이스 자원 준비
 		Connection conn = null;
+		conn = DBUtil.getConnection();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		
-		String dburl = "jdbc:mariadb://localhost:3306/blog"; 
-		String dbuser = "root";
-		String dbpw = "java1234";
-		conn = DriverManager.getConnection(dburl, dbuser, dbpw);
 		
 		String sql = "SELECT photo_no photoNo, photo_name photoName, photo_original_name photoOriginalName, writer, create_date createDate, update_date updateDate FROM photo WHERE photo_no=?";
 		stmt = conn.prepareStatement(sql);
