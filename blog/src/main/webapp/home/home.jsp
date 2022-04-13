@@ -33,7 +33,7 @@
 	<div class = "container">
 	<div class="row">
 		<div class="col-sm-2">
-			<h4 class="text-center text-info">  프로필</h4>
+			<h4 class="text-center text-info"> ㅤㅤ프로필</h4>
 				<img src="<%=request.getContextPath()%>/home/happy.png" height="300" width="200" class="rounded">
 					<div class="text-info">구혜민(hyeminKoo)</div> <!-- 이름 -->
 					<div class="text-info">kmys4007@naver.com</div> <!-- 이메일 -->

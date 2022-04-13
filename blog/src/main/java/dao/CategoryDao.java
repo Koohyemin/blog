@@ -8,7 +8,8 @@ import util.DBUtil;
 public class CategoryDao {
 	public CategoryDao() {} // 생성자 메서드
 	
-	// 게시글 작성 시 카테고리 목록 -> insertBoardForm.jsp, updateBoardForm.jsp
+	// 게시글 작성 시 카테고리 목록 
+	// boardList.jsp, boardOne.jsp, insertBoardForm.jsp, updateBoardForm.jsp
 	public ArrayList<String> insertCategoryName() throws Exception {
 		ArrayList<String> list = new ArrayList<String>();
 		// 데이터베이스 자원 준비

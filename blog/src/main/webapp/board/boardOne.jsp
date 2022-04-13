@@ -9,10 +9,11 @@
 
 	BoardDao boardDao = new BoardDao();
 	Board board = new Board();
-	// 카테고리 목록 불러오기
-	ArrayList<HashMap<String,Object>> categoryList = boardDao.selectCategoryList();
-	// 전체 행의 수(카테고리 전체보기)
-	int totalRow = boardDao.selectBoardTotalRow();
+
+	// category 목록 불러오기
+	CategoryDao categoryDao = new CategoryDao();
+	ArrayList<String> selectCategory = categoryDao.insertCategoryName();
+
 	// 게시글 상세보기 불러오기
 	board  = boardDao.selectBoardOne(boardNo);
 %>
@@ -38,14 +39,16 @@
 		<br><br><br><br>
 		<ul>
 				<li class="list-group text-center">
-					<a href="<%=request.getContextPath()%>/board/boardList.jsp" class="list-group-item text-dark">전체보기(<%=totalRow%>)</a>
+					<a href="<%=request.getContextPath()%>/board/boardList.jsp" class="list-group-item text-dark">전체보기</a>
 				</li>
 			<%
-				for(HashMap<String, Object> m : categoryList) {
+				for(String s : selectCategory) {
 			%>
 					
 						<li class="list-group text-center"> <!-- request.getContextPath()는 프로젝트의 context path명을 반환 -->
-							<a href="<%=request.getContextPath()%>/board/boardList.jsp?categoryName=<%=m.get("categoryName")%>" class="list-group-item text-dark"><%=m.get("categoryName")%>(<%=m.get("cnt")%>)</a>
+							<a href="<%=request.getContextPath()%>/board/boardList.jsp?categoryName=<%=s%>" class="list-group-item text-dark">
+								<%=s%>(<%=boardDao.selectCategoryBoardTotal(s, "")%>) <!-- 카테고리(카테고리 별 개수(검색기능 관계 없이)) -->
+							</a>
 						</li>
 			<%		
 				}
