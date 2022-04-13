@@ -6,7 +6,7 @@
 <%
 	// 최근 게시글 5개 불러오기
 	BoardDao boardDao = new BoardDao();
-	ArrayList<Board> boardList = boardDao.selectBoardListByPage("", 0, 5); // 카테고리 상관없이 최근 5개 게시글 값 셋팅
+	ArrayList<Board> boardList = boardDao.selectBoardListByPage("","", 0, 5); // 카테고리 상관없이 최근 5개 게시글 값 셋팅
 	
 	// 최근 방명록 3개 불러오기
 	GuestbookDao guestbookDao = new GuestbookDao();

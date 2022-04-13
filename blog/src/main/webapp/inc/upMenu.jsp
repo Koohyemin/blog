@@ -2,7 +2,7 @@
 <!-- 스킨 -->
 <div class="container-fluid bg-warning">
 	<br>
-	<h1 class="text-light text-center">BLOG</h1>
+	<h1 class="text-center"><a href="<%=request.getContextPath()%>/home/home.jsp" class="text-light" style="text-decoration:none">BLOG</a></h1>
 	<br>
 </div>
 <!-- 스킨 끝 -->
