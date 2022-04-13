@@ -88,7 +88,7 @@
 	<div class="col-sm-8">
 	<h1>게시글 목록 <span class="badge badge-warning badge-pill text-light"><%=totalRow%></span> </h1>
 	<!-- 한페이지에 보고싶은 개수 선택(totalRow) -->
-	<form method="post" action="<%=request.getContextPath()%>/board/boardList.jsp?categoryName=<%=categoryName%>">
+	<form method="post" action="<%=request.getContextPath()%>/board/boardList.jsp?categoryName=<%=categoryName%>&&boardSearch=<%=boardSearch%>">
 		<select name="rowPerPage" onchange="this.form.submit()" class="form-control col-lg-1" style="float:left">
 			<option value="5" <%if(rowPerPage==5){%>selected="selected"<%}%>>5개씩</option>
 			<option value="10" <%if(rowPerPage==10){%>selected="selected"<%}%>>10개씩</option>
