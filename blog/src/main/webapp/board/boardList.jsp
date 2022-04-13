@@ -28,7 +28,11 @@
 		currentPage = Integer.parseInt(request.getParameter("currentPage")); // 이전 -1, 다음 +1 값 대입
 	}
 	System.out.println("현재 페이지 : " + currentPage);
-	int rowPerPage = 10; // 한 페이지당 게시글 개수
+	int rowPerPage = 10;
+	if(request.getParameter("rowPerPage")!=null) { // 사용자가 페이지당 개수를 지정했다면 변경
+		rowPerPage = Integer.parseInt(request.getParameter("rowPerPage"));
+		// System.out.println("사용자 지정 한 페이지당 출력 게시글 개수 : " + rowPerPage);
+	}
 	int beginRow = (currentPage-1) * rowPerPage; // 페이지 별 첫 게시글 ex) 한페이지당 10이라면 1p -> 0, 2p -> 10, 3p -> 20
 	int totalRow = 0; // 전체 게시글 개수
 	if(categoryName.equals("")) {
@@ -83,14 +87,37 @@
 	<!-- 게시글 리스트 구간 -->
 	<div class="col-sm-8">
 	<h1>게시글 목록 <span class="badge badge-warning badge-pill text-light"><%=totalRow%></span> </h1>
+	<!-- 한페이지에 보고싶은 개수 선택(totalRow) -->
+	<form method="post" action="<%=request.getContextPath()%>/board/boardList.jsp?categoryName=<%=categoryName%>">
+		<select name="rowPerPage" onchange="this.form.submit()" class="form-control col-lg-1" style="float:left">
+			<option value="5" <%if(rowPerPage==5){%>selected="selected"<%}%>>5개씩</option>
+			<option value="10" <%if(rowPerPage==10){%>selected="selected"<%}%>>10개씩</option>
+			<option value="15" <%if(rowPerPage==15){%>selected="selected"<%}%>>15개씩</option>
+			<option value="20" <%if(rowPerPage==20){%>selected="selected"<%}%>>20개씩</option>
+			<option value="25" <%if(rowPerPage==25){%>selected="selected"<%}%>>25개씩</option>
+			<option value="30" <%if(rowPerPage==30){%>selected="selected"<%}%>>30개씩</option>
+			<option value="40" <%if(rowPerPage==40){%>selected="selected"<%}%>>40개씩</option>
+			<option value="50" <%if(rowPerPage==50){%>selected="selected"<%}%>>50개씩</option>
+		</select>
+	</form>
 	<!-- 게시글 입력 버튼 -->
 	<div style="float:left">
-		<a href="<%=request.getContextPath()%>/board/insertBoardForm.jsp" class="btn btn-light text-danger">게시글 입력</a>
+		&nbsp;<a href="<%=request.getContextPath()%>/board/insertBoardForm.jsp" class="btn btn-light text-danger">게시글 입력</a>
 	</div>
 	<!-- 게시글 제목 검색 -->
 	<form method="post" action="<%=request.getContextPath()%>/board/boardList.jsp?categoryName=<%=categoryName%>">
 		<div class="col-lg-4 input-group mb-3" style="float:right">
-			<input type="text" name="boardSearch" placeholder="검색어를 입력하세요" class="form-control">
+			<%
+				if("".equals(boardSearch)){
+			%>
+					<input type="text" name="boardSearch" placeholder="검색어를 입력하세요" class="form-control">
+			<%
+				} else {
+			%>
+					<input type="text" name="boardSearch" value="<%=boardSearch%>" class="form-control">
+			<%
+				}
+			%>
 			<button type="submit" class="btn btn-outline-warning" style="float:right">검색</button>
 		</div>
 	</form>
@@ -129,7 +156,7 @@
 			<%
 				if(currentPage > 1) { // 현재페이지가 1이면 이전페이지가 존재해서는 안된다.
 			%>
-					<a href="<%=request.getContextPath()%>/board/boardList.jsp?currentPage=<%=currentPage-1%>&&categoryName=<%=categoryName%>&&totalRow=<%=totalRow%>&&boardSearch=<%=boardSearch%>" class="btn btn-warning text-light">이전</a>
+					<a href="<%=request.getContextPath()%>/board/boardList.jsp?currentPage=<%=currentPage-1%>&&categoryName=<%=categoryName%>&&totalRow=<%=totalRow%>&&boardSearch=<%=boardSearch%>&&rowPerPage=<%=rowPerPage%>" class="btn btn-warning text-light">이전</a>
 			<%
 				}
 			%>
@@ -137,7 +164,7 @@
 			<%			 	
 			 	if(currentPage < lastPage) { // 현재페이지가 마지막 페이지보다 클 수 없다.
 			%>
-			 		<a href="<%=request.getContextPath()%>/board/boardList.jsp?currentPage=<%=currentPage+1%>&&categoryName=<%=categoryName%>&&totalRow=<%=totalRow%>&&boardSearch=<%=boardSearch%>" class="btn btn-warning text-light">다음</a>
+			 		<a href="<%=request.getContextPath()%>/board/boardList.jsp?currentPage=<%=currentPage+1%>&&categoryName=<%=categoryName%>&&totalRow=<%=totalRow%>&&boardSearch=<%=boardSearch%>&&rowPerPage=<%=rowPerPage%>" class="btn btn-warning text-light">다음</a>
 			<%
 			 	}
 			%>
