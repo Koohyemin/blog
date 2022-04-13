@@ -78,7 +78,7 @@
 				</div>
 				<table border="1" class="table table-striped">
 					<tr>
-						<td class="text-secondary table-warning"><%=g.getWriter() %></td>
+						<td class="text-secondary table-warning text-center"><%=g.getWriter() %></td>
 						<td class="text-secondary table-warning" align="right"><%=g.getCreateDate() %></td>
 					</tr>
 					<tr>

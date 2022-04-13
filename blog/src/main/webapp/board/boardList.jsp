@@ -48,18 +48,18 @@
 	<div class="row">
 	
 	<!-- category별 게시글 링크 메뉴 -->
-	<div class="col-sm-2">
+	<div class="col-sm-3">
 	<div>
 		<br><br><br><br>
 		<ul>
-				<li class="list-group">
+				<li class="list-group text-center">
 					<a href="<%=request.getContextPath()%>/board/boardList.jsp" class="list-group-item text-dark">전체보기</a>
 				</li>
 			<%
 				for(HashMap<String, Object> m : categoryList) {
 			%>
 					
-						<li class="list-group"> <!-- request.getContextPath()는 프로젝트의 context path명을 반환 -->
+						<li class="list-group text-center"> <!-- request.getContextPath()는 프로젝트의 context path명을 반환 -->
 							<a href="<%=request.getContextPath()%>/board/boardList.jsp?categoryName=<%=m.get("categoryName")%>" class="list-group-item text-dark"><%=m.get("categoryName")%>(<%=m.get("cnt")%>)</a>
 						</li>
 			<%		
@@ -70,17 +70,17 @@
 	</div>
 	
 	<!-- 게시글 리스트 -->
-	<div class="col-sm-9">
+	<div class="col-sm-8">
 	<h1>게시글 목록 <span class="badge badge-warning badge-pill text-light"><%=totalRow%></span> </h1>
 	<div>
-		<a href="<%=request.getContextPath()%>/board/insertBoardForm.jsp" class="btn btn-light">게시글 입력</a>
+		<a href="<%=request.getContextPath()%>/board/insertBoardForm.jsp" class="btn btn-light text-danger">게시글 입력</a>
 	</div>
 	<table class="table table-hover">
-		<thead>
+		<thead class="bg-warning text-light text-center">
 			<tr>
-				<th class="bg-warning text-light">카테고리</th> <!-- categoryName -->
-				<th class="bg-warning text-light">글 제목</th> <!-- boardTitle -->
-				<th class="bg-warning text-light">작성일</th> <!-- createDate -->
+				<th>카테고리</th> <!-- categoryName -->
+				<th>글 제목</th> <!-- boardTitle -->
+				<th>작성일</th> <!-- createDate -->
 			</tr>
 		</thead>
 		<tbody>
@@ -88,9 +88,9 @@
 				for(Board b : boardList) {
 			%>
 					<tr>
-						<td class="text-secondary"><%=b.getCategoryName()%></td>
+						<td class="text-secondary text-center"><%=b.getCategoryName()%></td>
 						<td><a href="<%=request.getContextPath()%>/board/boardOne.jsp?boardNo=<%=b.getBoardNo()%>" class="text-body"><%=b.getBoardTitle()%></a></td>
-						<td class="text-secondary"><%=b.getCreateDate()%></td>
+						<td class="text-secondary text-center"><%=b.getCreateDate()%></td>
 					</tr>
 			<%		
 				}

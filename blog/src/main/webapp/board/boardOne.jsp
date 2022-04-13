@@ -33,18 +33,18 @@
 	<!-- 스킨+메인 메뉴 끝 -->
 	<br>
 	<!-- 카테고리 목록 -->
-	<div class="col-sm-2">
+	<div class="col-sm-3">
 	<div>
 		<br><br><br><br>
 		<ul>
-				<li class="list-group">
+				<li class="list-group text-center">
 					<a href="<%=request.getContextPath()%>/board/boardList.jsp" class="list-group-item text-dark">전체보기(<%=totalRow%>)</a>
 				</li>
 			<%
 				for(HashMap<String, Object> m : categoryList) {
 			%>
 					
-						<li class="list-group"> <!-- request.getContextPath()는 프로젝트의 context path명을 반환 -->
+						<li class="list-group text-center"> <!-- request.getContextPath()는 프로젝트의 context path명을 반환 -->
 							<a href="<%=request.getContextPath()%>/board/boardList.jsp?categoryName=<%=m.get("categoryName")%>" class="list-group-item text-dark"><%=m.get("categoryName")%>(<%=m.get("cnt")%>)</a>
 						</li>
 			<%		
@@ -54,33 +54,33 @@
 	</div>
 	</div>
 	<!-- 게시글 상세보기 -->
-	<div class="col-sm-9">
+	<div class="col-sm-8">
 	<br>
 	<h1>게시글 상세보기</h1>
-	<a href="<%=request.getContextPath()%>/board/boardList.jsp" class="btn btn-light float-right">이전으로</a>
+	<a href="<%=request.getContextPath()%>/board/boardList.jsp" class="btn btn-light float-right">목록</a>
 	<table class="table table-bordered">
 		<tr>
-			<td class="text-secondary">번호</td>
+			<td class="text-secondary text-center" style="width: 10%">번호</td>
 			<td><%=board.getBoardNo() %></td>
 		</tr>
 		<tr>
-			<td class="text-secondary">카테고리</td>
+			<td class="text-secondary text-center">카테고리</td>
 			<td><%=board.getCategoryName() %></td>
 		</tr>
 		<tr>
-			<td class="text-secondary">제목</td>
+			<td class="text-secondary text-center">제목</td>
 			<td><%=board.getBoardTitle() %></td>
 		</tr>
 		<tr>
-			<td class="text-secondary">본문</td>
+			<td class="text-secondary text-center">본문</td>
 			<td><%=board.getBoardContent() %></td>
 		</tr>
 		<tr>
-			<td class="text-secondary">작성일</td>
+			<td class="text-secondary text-center">작성일</td>
 			<td><%=board.getCreateDate() %></td>
 		</tr>
 		<tr>
-			<td class="text-secondary">수정일</td>
+			<td class="text-secondary text-center">수정일</td>
 			<td><%=board.getUpdateDate() %></td>
 		</tr>
 	</table>

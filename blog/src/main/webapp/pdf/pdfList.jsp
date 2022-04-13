@@ -39,7 +39,7 @@
 	
 	<div class="container">
 	<h1>PDF 자료실</h1> : 파일명 클릭 시 다운로드 됩니다.<br>
-		<a href="<%=request.getContextPath()%>/pdf/insertPdfForm.jsp" class="btn btn-light">pdf 등록</a>
+		<a href="<%=request.getContextPath()%>/pdf/insertPdfForm.jsp" class="btn btn-light text-danger">pdf 등록</a>
 		<table class="table table-hover">
 			<thead class="bg-warning text-light">
 				<tr>

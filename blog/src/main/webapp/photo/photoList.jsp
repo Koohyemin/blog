@@ -39,7 +39,7 @@
 	<div class="container">
 	
 	<h1>이미지 목록<span class="badge badge-warning badge-pill text-light"><%=totalRow %></span></h1>
-	<a href="<%=request.getContextPath()%>/photo/insertPhotoForm.jsp" class="btn btn-light">이미지 등록</a>
+	<a href="<%=request.getContextPath()%>/photo/insertPhotoForm.jsp" class="btn btn-light text-danger">이미지 등록</a>
 	<table class="table table-borderless">
 		<tr>
 			<%
