@@ -1,24 +1,28 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import = "vo.*" %>
 <%@ page import = "dao.*" %>
+<%@ page import = "newBadge.*" %>
 <%@ page import = "java.util.*" %>
 <%
-	request.setCharacterEncoding("utf-8"); // 인코딩
+	//인코딩
+	request.setCharacterEncoding("utf-8");
 
 	BoardDao boardDao = new BoardDao();
+	
 	// 검색 내용 받아오기
-	String boardSearch = "";
-	if(request.getParameter("boardSearch")!=null) {
-		boardSearch = request.getParameter("boardSearch");
+	String boardSearch = ""; // request.getParameter로 null값을 받을 수 없기 때문에 ""으로 기본값 설정
+	if(request.getParameter("boardSearch")!=null) { // boardSearch를 통해 받은 값이 있다면
+		boardSearch = request.getParameter("boardSearch"); // boardSearch에 받은 값 대입
 	}
+	
 	// 카테고리(category)
-	String categoryName = ""; // request.getParameter로 null값을 받을 수 없기 때문에 ""
+	String categoryName = ""; 
 	if(request.getParameter("categoryName")!=null) { // categoryList를 통해 받은 값이 있다면
 		categoryName = request.getParameter("categoryName"); // categoryName에 받은 값 대입
 		System.out.println("선택한 카테고리 : " + categoryName);
 	}
 	
-	// category 목록 불러오기
+	// category 이름 목록 불러오기
 	CategoryDao categoryDao = new CategoryDao();
 	ArrayList<String> selectCategory = categoryDao.insertCategoryName();
 	
@@ -28,22 +32,31 @@
 		currentPage = Integer.parseInt(request.getParameter("currentPage")); // 이전 -1, 다음 +1 값 대입
 	}
 	System.out.println("현재 페이지 : " + currentPage);
-	int rowPerPage = 10;
-	if(request.getParameter("rowPerPage")!=null) { // 사용자가 페이지당 개수를 지정했다면 변경
+	
+	int rowPerPage = 10; // 한 페이지당 게시글 목록 수 10개로 기본값 설정
+	if(request.getParameter("rowPerPage")!=null) { // 사용자가 페이지당 개수를 지정했다면 변경값 대입
 		rowPerPage = Integer.parseInt(request.getParameter("rowPerPage"));
 		// System.out.println("사용자 지정 한 페이지당 출력 게시글 개수 : " + rowPerPage);
 	}
+	
 	int beginRow = (currentPage-1) * rowPerPage; // 페이지 별 첫 게시글 ex) 한페이지당 10이라면 1p -> 0, 2p -> 10, 3p -> 20
+
 	int totalRow = 0; // 전체 게시글 개수
-	if(categoryName.equals("")) {
+	if(categoryName.equals("")) { // 카테고리가 선택되지 않았을 경우 전체 게시글 개수
 		totalRow = boardDao.selectBoardTotalRow(boardSearch);
-	} else if(request.getParameter("categoryName") != null) {
-		totalRow = boardDao.selectCategoryBoardTotal(categoryName, boardSearch); // totalRow에 category 게시글 수 값 대입	
+	} else if(request.getParameter("categoryName") != null) { // 카테고리가 선택되었을 경우 게시글 개수
+		totalRow = boardDao.selectCategoryBoardTotal(categoryName, boardSearch); 
 	}
-	int lastPage = (int)(Math.ceil((double)totalRow / (double)rowPerPage)); // 마지막페이지 = (올림)전체페이지 / 한 페이지당 개수 
+	
+	int lastPage = (int)(Math.ceil((double)totalRow / (double)rowPerPage)); // 마지막페이지 = (int)((올림)전체페이지 / 한 페이지당 개수 )
 	
 	// 게시글 목록(boardList) 불러오기
 	ArrayList<Board> boardList = boardDao.selectBoardListByPage(categoryName, boardSearch, beginRow, rowPerPage);
+	
+	// 최근 일주일 날짜 목록 불러오기
+	Badge badge = new Badge();
+	ArrayList<String> currentSevenDays = badge.currentSevenDays();
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -87,7 +100,7 @@
 	<!-- 게시글 리스트 구간 -->
 	<div class="col-sm-8">
 	<h1>게시글 목록 <span class="badge badge-warning badge-pill text-light"><%=totalRow%></span> </h1>
-	<!-- 한페이지에 보고싶은 개수 선택(totalRow) -->
+	<!-- 한페이지에 보고싶은 개수 선택(rowPerPage) -->
 	<form method="post" action="<%=request.getContextPath()%>/board/boardList.jsp?categoryName=<%=categoryName%>&&boardSearch=<%=boardSearch%>">
 		<select name="rowPerPage" onchange="this.form.submit()" class="form-control col-lg-1" style="float:left">
 			<option value="5" <%if(rowPerPage==5){%>selected="selected"<%}%>>5개씩</option>
@@ -107,17 +120,7 @@
 	<!-- 게시글 제목 검색 -->
 	<form method="post" action="<%=request.getContextPath()%>/board/boardList.jsp?categoryName=<%=categoryName%>">
 		<div class="col-lg-4 input-group mb-3" style="float:right">
-			<%
-				if("".equals(boardSearch)){
-			%>
-					<input type="text" name="boardSearch" placeholder="검색어를 입력하세요" class="form-control">
-			<%
-				} else {
-			%>
-					<input type="text" name="boardSearch" value="<%=boardSearch%>" class="form-control">
-			<%
-				}
-			%>
+			<input type="text" name="boardSearch" value="<%=boardSearch%>" class="form-control">
 			<button type="submit" class="btn btn-outline-warning" style="float:right">검색</button>
 		</div>
 	</form>
@@ -136,7 +139,20 @@
 			%>
 					<tr>
 						<td class="text-secondary text-center"><%=b.getCategoryName()%></td>
-						<td><a href="<%=request.getContextPath()%>/board/boardOne.jsp?boardNo=<%=b.getBoardNo()%>" class="text-body"><%=b.getBoardTitle()%></a></td>
+						<td>
+							<a href="<%=request.getContextPath()%>/board/boardOne.jsp?boardNo=<%=b.getBoardNo()%>" class="text-body"><%=b.getBoardTitle()%>
+							<%
+								// 최근 7일 게시글에 new 뱃지 추가
+								for(String s : currentSevenDays) {
+									if(s.equals(b.getCreateDate().substring(0,10))) {
+							%>
+									 <span class="badge badge-warning">new</span>
+							<%
+									}
+								}
+							%>
+							</a>
+						</td>
 						<td class="text-secondary text-center"><%=b.getCreateDate()%></td>
 					</tr>
 			<%		

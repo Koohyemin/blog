@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import = "dao.*" %>
 <%@ page import = "vo.*" %>
+<%@ page import = "newBadge.*" %>
 <%@ page import = "java.util.*" %>
 
 <%
@@ -12,7 +13,9 @@
 	GuestbookDao guestbookDao = new GuestbookDao();
 	ArrayList<Guestbook> guestbookList = guestbookDao.selectGuestbookListByPage(0, 3); 
 	
-	
+	// 최근 일주일 날짜 목록 불러오기
+	Badge badge = new Badge();
+	ArrayList<String> currentSevenDays = badge.currentSevenDays();
 	
 	
 
@@ -42,7 +45,7 @@
 		<div class="col-sm-1">
 		</div>
 		<div class="col-sm-9">
-			<h4 class="text-center text-info">최근 게시글 <span class="badge badge-warning">new</span></h4>
+			<h4 class="text-center text-info">최근 게시글</h4>
 				<table class="table table-hover">
 					<thead>
 						<th>카테고리</th>
@@ -55,7 +58,20 @@
 						%>
 								<tr>
 									<td><%=b.getCategoryName()%></td>
-									<td><a href="<%=request.getContextPath()%>/board/boardOne.jsp?boardNo=<%=b.getBoardNo()%>" class="text-body"><%=b.getBoardTitle()%></a></td>
+									<td>
+										<a href="<%=request.getContextPath()%>/board/boardOne.jsp?boardNo=<%=b.getBoardNo()%>" class="text-body"><%=b.getBoardTitle()%>
+											<%
+												// 최근 7일 게시글에 new 뱃지 추가
+												for(String s : currentSevenDays) {
+													if(s.equals(b.getCreateDate().substring(0,10))) {
+											%>
+													 <span class="badge badge-warning">new</span>
+											<%
+													}
+												}
+											%>
+										</a>
+									</td>
 									<td><%=b.getCreateDate()%></td>
 								</tr>
 						<%
@@ -63,13 +79,24 @@
 						%>
 					</tbody>
 				</table>
-			<h4 class="text-center text-info">최근 방명록 <span class="badge badge-warning">new</span></h4>
+			<h4 class="text-center text-info">최근 방명록</h4>
 					<%
 						for(Guestbook g : guestbookList) {
 					%>
 							<table border="1" class="table table-striped">
 								<tr>
-									<td class="text-secondary text-center"><%=g.getWriter() %></td>
+									<td class="text-secondary"><%=g.getWriter() %>
+										<%
+											// 최근 7일 방명록에 new 뱃지 추가
+											for(String s : currentSevenDays) {
+												if(s.equals(g.getCreateDate().substring(0,10))) {
+										%>
+												 <span class="badge badge-warning">new</span>
+										<%
+												}
+											}
+										%>
+									</td>
 									<td class="text-secondary" align="right"><%=g.getCreateDate() %></td>
 								</tr>
 								<tr>

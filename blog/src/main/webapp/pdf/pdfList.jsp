@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import = "dao.PdfDao" %>
 <%@ page import = "vo.Pdf" %>
+<%@ page import = "newBadge.*" %>
 <%@ page import = "java.util.*" %>
 <%
 	request.setCharacterEncoding("utf-8");
@@ -19,9 +20,12 @@
 	int totalRow = pdfDao.selectPdfTotalRow(); // 전체 게시글 수
 	int lastPage = (int)(Math.ceil((double)totalRow / (double)rowPerPage)); // 마지막 페이지
 	
+	// 최근 일주일 날짜 목록 불러오기
+	Badge badge = new Badge();
+	ArrayList<String> currentSevenDays = badge.currentSevenDays();
+	
 	// pdf 목록보기
 	ArrayList<Pdf> list = pdfDao.selectPdfListByPage(beginRow, rowPerPage);
-	
 %>
 <!DOCTYPE html>
 <html>
@@ -38,7 +42,8 @@
 	<br>
 	
 	<div class="container">
-	<h1>PDF 자료실</h1> : 파일명 클릭 시 다운로드 됩니다.<br>
+	<h1>PDF 자료실<span class="badge badge-warning badge-pill text-light"><%=totalRow%></span></h1>
+	 : 파일명 클릭 시 다운로드 됩니다.<br>
 		<a href="<%=request.getContextPath()%>/pdf/insertPdfForm.jsp" class="btn btn-light text-danger">pdf 등록</a>
 		<table class="table table-hover">
 			<thead class="bg-warning text-light">
@@ -57,7 +62,18 @@
 					<tr>
 						<td><%=p.getPdfNo() %></td>
 						<td>
-							<a href="<%=request.getContextPath()%>/uploadPdf/<%=p.getPdfName()%>" download="<%=p.getPdfOriginalName()%>"><%=p.getPdfOriginalName()%></a>
+							<a href="<%=request.getContextPath()%>/uploadPdf/<%=p.getPdfName()%>" download="<%=p.getPdfOriginalName()%>"><%=p.getPdfOriginalName()%>
+							<%
+								// 최근 7일 pdf에 new 뱃지 추가
+								for(String s : currentSevenDays) {
+									if(s.equals(p.getCreateDate().substring(0,10))) {
+							%>
+									 	<span class="badge badge-warning">new</span>
+							<%
+									}
+								}
+							%>
+							</a>
 						</td>
 						<td><%=p.getWriter() %></td>
 						<td><%=p.getCreateDate() %></td>

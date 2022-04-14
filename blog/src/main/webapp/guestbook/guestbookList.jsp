@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import = "vo.Guestbook" %>
 <%@ page import = "dao.GuestbookDao" %>
+<%@ page import = "newBadge.*" %>
 <%@ page import = "java.util.ArrayList" %>
 <%@page import="java.net.URLDecoder"%>
 <%
@@ -28,6 +29,10 @@
 	lastPage = (int)(Math.ceil((double)totalCount / (double)rowPerPage)); 
 	// 4.0 / 2.0 = 2.0
 	// 5.0 / 2.0 = 2.5 -> 3.0
+	
+	// 최근 일주일 날짜 목록 불러오기
+	Badge badge = new Badge();
+	ArrayList<String> currentSevenDays = badge.currentSevenDays();
 	
 	// 유효성 판별
 	String msg = "";
@@ -78,7 +83,18 @@
 				</div>
 				<table border="1" class="table table-striped">
 					<tr>
-						<td class="text-secondary table-warning text-center"><%=g.getWriter() %></td>
+						<td class="text-secondary table-warning"><%=g.getWriter() %>
+							<%
+								// 최근 7일 방명록에 new 뱃지 추가
+								for(String s : currentSevenDays) {
+									if(s.equals(g.getCreateDate().substring(0,10))) {
+							%>
+									 <span class="badge badge-warning">new</span>
+							<%
+									}
+								}
+							%>
+						</td>
 						<td class="text-secondary table-warning" align="right"><%=g.getCreateDate() %></td>
 					</tr>
 					<tr>
